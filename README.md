@@ -1,18 +1,27 @@
-# Outdated Repository!
-This repository is abandoned. The new reposity is at https://github.com/noahdossan/pyunix
 # PYunix
 PYunix (pico unix) is a tiny kernel/microkernel simulation program with a functional terminal and multiple kernel system calls. It mimics and is basically a very oversimplifed version of the Linux kernel, that you can run as one program itself.
 ## Installation
-You can build with a C/C++ compiler such as GCC or MinGW, or download and run the already compiled executables.
+To build with gcc on Linux (tested on debian/ubuntu):
 
-This has been tested to run on Windows and Linux. Unix compilers such as GCC or MinGW only work because of headers only in Unix (unistd.h).
+```
+cd path/to/pyunix # cd to your path to where pyunix is stored
+gcc src/main.c -o main
+```
+
+And then to run (make sure you are in the same directory as before):
+
+`./main`
+
+If you get a permission error, run `sudo chmod 755 main`
+
+May work to compile on Windows, however you need something like MinGW, non-Unix compilers won't work
 
 It is possible to run this on Android since there are some C/C++ IDEs for Android.
 ## Contributing and Editing
 
-Contributions to PYUNIX are very welcome. I am a beginner so help is appreciated.
+Contributions to PYunix are very welcome. I am a beginner so help is appreciated.
 
-A lot of the features are .h files in their respective directories. To add or modify a kernel feature/call update the kernel/setup.h file.
+A lot of the features are .h and .c files in their respective directories. To add or modify a kernel feature/call update the kernel/setup.h file.
 ## Terminal Commands
 Running `help` in the terminal shows available commands. Updated as of `0.3.1`
 ```
@@ -55,17 +64,3 @@ void device_manager_list_devices();
 
 void clear_scr();
 ```
-The `terminal_kill_process()` call includes a `is_kernel` attribute. Attempting to kill a system process such as `init` initiates a kernel panic.
-However, if `is_kernel` is set to true, the system process protection is overrided.
-
-`kernel_init()`: This call is ran before the kernel is started. It does nothing, but you can put code to run there before the kernel is started.
-
-`kernel_start()`: Initializes the kernel.
-
-`kernel_switch_to_real_root_file_system()`: Switches from initramfs to root file system.
-
-`kernel_shutdown()`: Kills init and shuts down system. (TO-DO: kill all running processes).
-
-`kernel_panic(reason)`: Initiates a kernel panic.
-
-`kernel_oops(reason)`: Initiates a kernel oops.
