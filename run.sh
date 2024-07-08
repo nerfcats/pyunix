@@ -35,7 +35,7 @@ if version_gt "$GITHUB_VERSION" "$LOCAL_VERSION"; then
         # Backup current directory
         BACKUP_DIR="backup_$(date +'%Y%m%d_%H%M%S')"
         mkdir "$BACKUP_DIR"
-        cp -r ./* "$BACKUP_DIR/"
+        cp -r . "$BACKUP_DIR/"
 
         # Clean up backup of ver.txt since it will be replaced
         rm -f "$BACKUP_DIR/ver.txt"
