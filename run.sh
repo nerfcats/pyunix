@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # GitHub repository URL and file path
-GITHUB_REPO="https://github.com/noahdossan/pyunix.git"
+GITHUB_REPO="https://raw.githubusercontent.com/noahdossan/pyunix/master"
 GITHUB_VER_FILE="ver.txt"
 
 # Local file path
@@ -50,6 +50,8 @@ fi
 # Clean up temporary file
 rm -f /tmp/latest_ver.txt
 
+echo "Finished setup. Compiling and running in 5s"
+sleep 5s
 # Compile source
 gcc -o main src/main.c -rdynamic -lbacktrace
 
