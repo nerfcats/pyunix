@@ -50,8 +50,8 @@ fi
 # Clean up temporary file
 rm -f /tmp/latest_ver.txt
 
-echo "Finished setup. Compiling and running in 5s"
-sleep 5s
+echo "Finished setup. Compiling and running in 2s"
+sleep 2s
 # Compile source
 gcc -o main src/main.c -rdynamic -lbacktrace
 
