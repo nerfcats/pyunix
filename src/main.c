@@ -1,20 +1,10 @@
-/*
-TO-DO:
-Out of memory manager to terminate processes using too much memory
-Prevent user from creating same process twice, bugs out the system
-Add more commands
-    - reboot (reboot the PYunix system [bugged out, idk how to implement that])
-    File management
-        Create, modify, delete files on real users PC
-*/
-
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 #include <unistd.h>
 #include <time.h>
 #include <stdbool.h>
-#include <sys/time.h>  // for gettimeofday function
+#include <sys/time.h>
 
 #include "bios/bios.h"
 #include "bootloader/bootloader.h"
@@ -36,21 +26,22 @@ void record_start_time() {
     gettimeofday(&start_time, NULL);
 }
 
-// Function to get the elapsed time in milliseconds
+// Function to get the elapsed time in seconds
 double get_elapsed_time_ms() {
     struct timeval current_time;
     gettimeofday(&current_time, NULL);
 
-    // Calculate elapsed time in milliseconds
-    double elapsed_time = (current_time.tv_sec - start_time.tv_sec) * 1000.0;      // seconds to milliseconds
-    elapsed_time += (current_time.tv_usec - start_time.tv_usec) / 1000.0;   // microseconds to milliseconds
+    // Calculate elapsed time in seconds
+    double elapsed_time = (current_time.tv_sec - start_time.tv_sec);      // seconds
+
+    elapsed_time += (current_time.tv_usec - start_time.tv_usec) / 1000000.0;   // microseconds to seconds
     return elapsed_time;
 }
 
 int main()
 {
     record_start_time();
-    
+
     bios_initialize(); // Initialize the system and start the kernel
 
     // Add devices
@@ -59,8 +50,9 @@ int main()
 
     // Start the terminal
     terminal_start();
-    
-    // Start a kernel panic if loop is broken
-    kernel_panic("Program loop broken; was the system shutdown correctly?");
+
+    // Shutdown the system if loop broke
+    __print("kernel", "Terminal exited", "blue", true);
+    kernel_shutdown(false);
     return 0;
 }

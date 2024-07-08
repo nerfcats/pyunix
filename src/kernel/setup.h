@@ -8,7 +8,7 @@ Sets kernel calls and prepares other stuff
 
 void vwait();
 
-const char version[] = "PYunix microkernel v0.3.1-alpha";
+const char version[] = "PYunix microkernel v0.3.2-alpha [NOT RELEASE READY]";
 
 // Kernel calls
 void kernel_init();

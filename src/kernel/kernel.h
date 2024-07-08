@@ -16,6 +16,8 @@ Add more functionality by adding another module and defining it in "setup.h"
 */
 
 char kernel_state[] = "running";
+bool kernel_enabled = false;
+char user_perm[10];
 
 // Formatted string variables for the system to use
 char formatted_str[50];
@@ -32,6 +34,55 @@ void kernel_init()
 {
     // Initialize Kernel components
     strcpy(kernel_state, "running");
+
+    FILE* config_file = fopen("config.txt", "r");
+
+    if (config_file == NULL)
+    {
+        // Config file not found, create it
+        config_file = fopen("config.txt", "w");
+        __print("kernel", "Creating config file...", "blue", true);
+        if (config_file == NULL)
+        {
+            kernel_panic("Couldn't create config file");
+            exit(1);
+        }
+
+        fprintf(config_file, "# PYunix configuration flags\n# These flags change how the kernel works.\n\nkernel_enabled=true\nuser_perm=user\n");
+        fclose(config_file);
+
+        kernel_enabled = true;
+        strcpy(user_perm, "user");
+    }
+    else
+    {
+        // Config file found, parse it
+        char line[256];
+        while (fgets(line, sizeof(line), config_file))
+        {
+            // Ignore lines that start with '#'
+            if (line[0] == '#') {
+                continue;
+            }
+
+            if (sscanf(line, "kernel_enabled=%s", formatted_str) == 1)
+            {
+                kernel_enabled = (strcmp(formatted_str, "true") == 0);
+            }
+            else if (sscanf(line, "user_perm=%s", user_perm) == 1)
+            {
+                // user_perm is already set
+            }
+        }
+        fclose(config_file);
+    }
+    
+    if (kernel_enabled == false) {
+        __print("kernel", "Kernel cannot start. kernel_enabled flag is disabled. Check the config.txt file or delete it to reset flags.", "blue", true);
+        printf("Press ENTER to exit...");
+        getchar();
+        exit(0);
+    }
 }
 
 void kernel_start()

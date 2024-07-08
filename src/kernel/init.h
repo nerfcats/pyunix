@@ -23,6 +23,10 @@ void init_system_create_startup_processes()
 {
     process_manager_create_process("init");
     memory_manager_allocate("init", 32);
+    process_manager_create_process("MemoryServer");
+    memory_manager_allocate("MemoryServer", 64);
+    process_manager_create_process("ProcessServer");
+    memory_manager_allocate("ProcessServer", 32);
 }
 
 #endif // INIT_H_INCLUDED

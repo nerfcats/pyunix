@@ -1,0 +1,5 @@
+# PYunix configuration flags
+# These flags change how the kernel works.
+
+kernel_enabled=true
+user_perm=user
