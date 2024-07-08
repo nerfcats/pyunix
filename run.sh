@@ -10,6 +10,8 @@ LOCAL_VER_FILE="ver.txt"
 # Function to compare version strings
 version_gt() { test "$(printf '%s\n' "$@" | sort -V | head -n 1)" != "$1"; }
 
+echo "PYunix update and compiler utility"
+
 # Fetch latest version from GitHub
 echo "Fetching latest version from GitHub..."
 wget -q "$GITHUB_REPO/$GITHUB_VER_FILE" -O /tmp/latest_ver.txt
@@ -27,13 +29,16 @@ LOCAL_VERSION=$(cat "$LOCAL_VER_FILE")
 # Compare versions
 if version_gt "$GITHUB_VERSION" "$LOCAL_VERSION"; then
     echo "A new version ($GITHUB_VERSION) is available. Current version is $LOCAL_VERSION."
-    echo "Do you want to update? (yes/no)"
+    echo "Do you want to update? Be careful, ALL changes to code and configs will be erased! The old version will be stored in a backup folder. (yes/no)"
     read -r response
     if [[ $response =~ ^([yY][eE][sS]|[yY])$ ]]; then
-        # Backup old version
+        # Backup current directory
         BACKUP_DIR="backup_$(date +'%Y%m%d_%H%M%S')"
         mkdir "$BACKUP_DIR"
-        mv "$LOCAL_VER_FILE" "$BACKUP_DIR/"
+        cp -r ./* "$BACKUP_DIR/"
+
+        # Clean up backup of ver.txt since it will be replaced
+        rm -f "$BACKUP_DIR/ver.txt"
 
         # Update with new version
         wget -q "$GITHUB_REPO/$GITHUB_VER_FILE" -O "$LOCAL_VER_FILE"
