@@ -1,3 +1,5 @@
+> [!WARNING]
+> I have moved on to [Lunix](https://github.com/noahdossan/Lunix), which is better and is coded in C++
 # PYunix
 PYunix (pico unix) is a tiny kernel/microkernel simulation program with a functional terminal and multiple kernel system calls. It mimics and is basically a very oversimplifed version of the Linux kernel, that you can run as one program itself.
 ## Installation
